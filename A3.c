@@ -100,6 +100,86 @@ int hashName(const char* name)
     return (int)(hashValue % BUCKET_COUNT);
 }
 
+linkedList* searchLinkedList(char* searchName, linkedList* list, int* comparisonCount)
+{
+    linkedList* current;
+    int comparison;
+    if (comparisonCount == NULL)
+    {
+        return NULL;
+    }
+    *comparisonCount = 0;
+    current = list;
+
+    //loop through list until eaching either a matching name or the end of the list.
+    while (current != NULL)
+    {
+        comparison = strcmp(searchName, current->name);
+        (*comparisonCount)++;
+        if (comparison == 0)
+        {
+            return current;
+        }
+        if (comparison < 0)
+        {
+            return NULL;
+        }
+        current = current->next;
+    }
+    return NULL;
+}
+
+void searchForNameTwice(char* searchName, linkedList* hashTable[], int comparisonCount[2], linkedList* allNames)
+{
+    linkedList* listResult;
+    linkedList* hashResult;
+    int bucket;
+
+    listResult = searchLinkedList(searchName, allNames, &comparisonCount[0]);
+    bucket = hashName(searchName);
+    hashResult = searchLinkedList(searchName, hashTable[bucket], &comparisonCount[1]);
+
+    if (listResult != NULL)
+    {
+        printf("\t%s was found in the linked list in %d comparisons\n",
+            searchName,
+            comparisonCount[0]);
+    }
+    else
+    {
+        printf("\t%s was NOT found in the linked list in %d comparisons\n",
+            searchName,
+            comparisonCount[0]);
+    }
+
+    if (hashResult != NULL)
+    {
+        printf("\t%s was found in the hash table bucket in %d comparisons\n",
+            searchName,
+            comparisonCount[1]);
+    }
+    else
+    {
+        printf("\t%s was NOT found in the hash table bucket in %d comparisons\n",
+            searchName,
+            comparisonCount[1]);
+    }
+}
+
+void freeList(linkedList* head)
+{
+    linkedList* current;
+    linkedList* nodeToDelete;
+    current = head;
+    while (current != NULL)
+    {
+        nodeToDelete = current;
+        current = current->next;
+        free(nodeToDelete->name);
+        free(nodeToDelete);
+    }
+}
+
 int main(void) {
 
 }
