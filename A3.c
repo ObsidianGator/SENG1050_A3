@@ -1,8 +1,19 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+/*
+* FILE : A3.c
+* PROJECT : A3
+* PROGRAMMER : Ethan Halstead
+* FIRST VERSION : 2026-11-24
+* DESCRIPTION :
+* This file is the main file that runs the whole program.
+*/
 #include "A3.h"
 
+/*
+* FUNCTION : removeNewline
+* DESCRIPTION : removes the newline character from the end of names.
+* PARAMETERS : char* text
+* RETURNS : N/A
+*/
 void removeNewline(char* text)
 {
     size_t length;
@@ -20,6 +31,12 @@ void removeNewline(char* text)
     }
 }
 
+/*
+* FUNCTION : duplicateName
+* DESCRIPTION : allocates the memory for each name from the names.txt file.
+* PARAMETERS : const char* name
+* RETURNS : char*
+*/
 char* duplicateName(const char* name)
 {
     char* copy;
@@ -42,6 +59,12 @@ char* duplicateName(const char* name)
     return copy;
 }
 
+/*
+* FUNCTION : insertSorted
+* DESCRIPTION : inserts new nodes to the linked lists and sorts them as it does so.
+* PARAMETERS : linkedList** head, const char* name
+* RETURNS : int
+*/
 int insertSorted(linkedList** head, const char* name)
 {
     linkedList* newNode;
@@ -87,6 +110,12 @@ int insertSorted(linkedList** head, const char* name)
     return 1;
 }
 
+/*
+* FUNCTION : hashName
+* DESCRIPTION : Hashes the names to be sorted into their buckets.
+* PARAMETERS : const char* name
+* RETURNS : int
+*/
 int hashName(const char* name)
 {
     unsigned long hashValue;
@@ -100,6 +129,12 @@ int hashName(const char* name)
     return (int)(hashValue % BUCKET_COUNT);
 }
 
+/*
+* FUNCTION : searchLinkedList
+* DESCRIPTION : Searches through the provided linked list for the given name and counts the comparisons done to do so.
+* PARAMETERS : char* searchName, linkedList* list, int* comparisonCount
+* RETURNS : linkedList*
+*/
 linkedList* searchLinkedList(char* searchName, linkedList* list, int* comparisonCount)
 {
     linkedList* current;
@@ -129,6 +164,12 @@ linkedList* searchLinkedList(char* searchName, linkedList* list, int* comparison
     return NULL;
 }
 
+/*
+* FUNCTION : searchForNameTwice
+* DESCRIPTION : Calls the searchLinkedList function to search for the given name and stores the comparison amount, also report whether or not the name was not found with its comparision count.
+* PARAMETERS : char* searchName, linkedList* hashTable[], int* comparisonCount[2], linkedList* allNames
+* RETURNS : N/A
+*/
 void searchForNameTwice(char* searchName, linkedList* hashTable[], int comparisonCount[2], linkedList* allNames)
 {
     linkedList* listResult;
@@ -158,6 +199,12 @@ void searchForNameTwice(char* searchName, linkedList* hashTable[], int compariso
     }
 }
 
+/*
+* FUNCTION : freeList
+* DESCRIPTION : frees the given linked list and all of its nodes.
+* PARAMETERS : linkedList* head
+* RETURNS : N/A
+*/
 void freeList(linkedList* head)
 {
     linkedList* current;
@@ -172,6 +219,13 @@ void freeList(linkedList* head)
     }
 }
 
+/*
+* FUNCTION : main
+* DESCRIPTION : main function of the program that deals with parsing through the names.txt file 
+* and calling the other functions to both insert new names and search for a name given by the user before freeing all lists.
+* PARAMETERS : N/A
+* RETURNS : int
+*/
 int main(void)
 {
     FILE* inputFile;
