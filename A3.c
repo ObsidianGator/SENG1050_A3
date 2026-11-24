@@ -304,7 +304,7 @@ int main(void)
             return EXIT_FAILURE;
         }
         //calculates the bucket number and inserts names into their proper buckets
-        bucket = (hashName(inputName) + 1) % BUCKET_COUNT;
+        bucket = hashName(inputName);
         if (!insertSorted(&hashTable[bucket], inputName))
         {
             fprintf(stderr, "Error: could not insert name into hash table.\n");
